@@ -2,6 +2,7 @@
 # claim-usdc.yml
 #
 # Automatically claims USDC on Ethereum Sepolia using the Circle Faucet API.
+#
 # Runs 10 times per day (every ~2.4 hours) to stay within Circle's daily limit
 # of 5–10 claims per API key.
 #

@@ -1,5 +1,5 @@
 # Circle USDC Auto-Claim Automation
-
+# 
 This repository automates daily USDC claims on Ethereum Sepolia using the Circle Faucet API. It is designed for scheduled, unattended operation via GitHub Actions.
 
 ## Features

@@ -23,10 +23,12 @@ const WALLET_ADDRESS = process.env.WALLET_ADDRESS;
 if (!CIRCLE_API_KEY) {
   console.error("[FATAL] CIRCLE_API_KEY env variable is not set.");
   process.exit(1);
-}
+}  
+
 if (!WALLET_ADDRESS) {
   console.error("[FATAL] WALLET_ADDRESS env variable is not set.");
   process.exit(1);
+
 }
 
 // ── Circle API helper ─────────────────────────────────────────────────────────

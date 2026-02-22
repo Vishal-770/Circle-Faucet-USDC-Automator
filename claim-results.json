@@ -1,16 +1,29 @@
 {
   "meta": {
     "description": "Automated USDC claim log – ETH Sepolia via Circle Faucet",
-    "wallet": "set-via-WALLET_ADDRESS-secret",
+    "wallet": "0x0CfB00Dc12f550D47A511Bb98B9fAE1D1240dcbA",
     "blockchain": "ETH-SEPOLIA",
     "schedule": "Every ~2.4 hours (10 times/day) "
   },
   "summary": {
-    "total_attempts": 0,
+    "total_attempts": 1,
     "total_success": 0,
-    "total_failed": 0,
+    "total_failed": 1,
     "success_rate_pct": 0,
-    "last_updated": null
+    "last_updated": "2026-02-22T17:02:33.390Z"
   },
-  "claims": []
+  "claims": [
+    {
+      "timestamp": "2026-02-22T17:02:33.099Z",
+      "status": "failed",
+      "http_status": 429,
+      "transaction_id": null,
+      "message": "API rate limit error",
+      "error_code": 5,
+      "raw_response": {
+        "code": 5,
+        "message": "API rate limit error"
+      }
+    }
+  ]
 }

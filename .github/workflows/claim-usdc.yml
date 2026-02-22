@@ -1,0 +1,109 @@
+# ─────────────────────────────────────────────────────────────────────────────
+# claim-usdc.yml
+#
+# Automatically claims USDC on Ethereum Sepolia using the Circle Faucet API.
+# Runs 10 times per day (every ~2.4 hours) to stay within Circle's daily limit
+# of 5–10 claims per API key.
+#
+# Required GitHub Secrets (Settings → Secrets → Actions):
+#   CIRCLE_API_KEY    – Your Circle TEST_API_KEY (format: TEST_API_KEY:xxx:xxx)
+#   WALLET_ADDRESS    – Target Ethereum Sepolia wallet (0x...)
+# ─────────────────────────────────────────────────────────────────────────────
+
+name: Auto-Claim USDC (ETH Sepolia)
+
+on:
+  # ── 10 triggers per day, spaced ~2.4 hours apart (UTC) ──────────────────────
+  schedule:
+    - cron: '0 0 * * *'    # 00:00 UTC
+    - cron: '24 2 * * *'   # 02:24 UTC
+    - cron: '48 4 * * *'   # 04:48 UTC
+    - cron: '12 7 * * *'   # 07:12 UTC
+    - cron: '36 9 * * *'   # 09:36 UTC
+    - cron: '0 12 * * *'   # 12:00 UTC
+    - cron: '24 14 * * *'  # 14:24 UTC
+    - cron: '48 16 * * *'  # 16:48 UTC
+    - cron: '12 19 * * *'  # 19:12 UTC
+    - cron: '36 21 * * *'  # 21:36 UTC
+
+  # Allow manual triggering from the Actions tab
+  workflow_dispatch:
+
+# Prevent concurrent runs from overwriting claim-results.json simultaneously
+concurrency:
+  group: usdc-claimer
+  cancel-in-progress: false
+
+jobs:
+  claim:
+    name: Claim USDC on ETH-Sepolia
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+
+    permissions:
+      contents: write   # needed to push claim-results.json back to the repo
+
+    steps:
+      # ── 1. Checkout ───────────────────────────────────────────────────────
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          # Use default GITHUB_TOKEN so the push step works without extra config
+          token: ${{ secrets.GITHUB_TOKEN }}
+          fetch-depth: 1
+
+      # ── 2. Set up Node.js ─────────────────────────────────────────────────
+      - name: Set up Node.js 20
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      # ── 3. Run the claim script ───────────────────────────────────────────
+      - name: Run auto-claim script
+        id: claim
+        env:
+          CIRCLE_API_KEY: ${{ secrets.CIRCLE_API_KEY }}
+          WALLET_ADDRESS: ${{ secrets.WALLET_ADDRESS }}
+        run: node scripts/auto-claim.mjs
+
+      # ── 4. Commit updated results to the repo ────────────────────────────
+      - name: Commit claim-results.json
+        run: |
+          git config user.name  "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+
+          # Only commit if the file actually changed
+          if git diff --quiet claim-results.json; then
+            echo "No changes to claim-results.json – nothing to commit."
+          else
+            git add claim-results.json
+            git commit -m "chore(faucet): record claim result [$(date -u '+%Y-%m-%dT%H:%M:%SZ')]"
+            git push
+          fi
+
+      # ── 5. Summary ────────────────────────────────────────────────────────
+      - name: Print summary
+        if: always()
+        run: |
+          echo "### Claim Result" >> $GITHUB_STEP_SUMMARY
+          echo "" >> $GITHUB_STEP_SUMMARY
+          # Pretty-print the last entry from the results file
+          node -e "
+            const fs = require('fs');
+            const r = JSON.parse(fs.readFileSync('claim-results.json','utf8'));
+            const last = r.claims.at(-1);
+            const s = r.summary;
+            console.log('| Field | Value |');
+            console.log('|-------|-------|');
+            if (last) {
+              console.log(\`| Timestamp | \${last.timestamp} |\`);
+              console.log(\`| Status | \${last.status.toUpperCase()} |\`);
+              console.log(\`| HTTP Status | \${last.http_status ?? 'N/A'} |\`);
+              console.log(\`| Transaction ID | \${last.transaction_id ?? 'N/A'} |\`);
+              console.log(\`| Message | \${last.message} |\`);
+            }
+            console.log(\`| Total Attempts | \${s.total_attempts} |\`);
+            console.log(\`| Success | \${s.total_success} |\`);
+            console.log(\`| Failed | \${s.total_failed} |\`);
+            console.log(\`| Success Rate | \${s.success_rate_pct}% |\`);
+          " >> $GITHUB_STEP_SUMMARY

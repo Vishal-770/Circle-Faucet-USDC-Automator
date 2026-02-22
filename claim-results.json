@@ -1,0 +1,16 @@
+{
+  "meta": {
+    "description": "Automated USDC claim log – ETH Sepolia via Circle Faucet",
+    "wallet": "set-via-WALLET_ADDRESS-secret",
+    "blockchain": "ETH-SEPOLIA",
+    "schedule": "Every ~2.4 hours (10 times/day)"
+  },
+  "summary": {
+    "total_attempts": 0,
+    "total_success": 0,
+    "total_failed": 0,
+    "success_rate_pct": 0,
+    "last_updated": null
+  },
+  "claims": []
+}

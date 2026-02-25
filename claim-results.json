@@ -6,11 +6,11 @@
     "schedule": "Every ~2.4 hours (10 times/day) "
   },
   "summary": {
-    "total_attempts": 23,
-    "total_success": 11,
+    "total_attempts": 24,
+    "total_success": 12,
     "total_failed": 12,
-    "success_rate_pct": 47.83,
-    "last_updated": "2026-02-24T22:00:03.336Z"
+    "success_rate_pct": 50,
+    "last_updated": "2026-02-25T01:57:35.253Z"
   },
   "claims": [
     {
@@ -244,6 +244,14 @@
         "code": 5,
         "message": "API rate limit error"
       }
+    },
+    {
+      "timestamp": "2026-02-25T01:57:34.562Z",
+      "status": "success",
+      "http_status": 204,
+      "transaction_id": null,
+      "message": "Claim accepted",
+      "error_code": null
     }
   ]
 }

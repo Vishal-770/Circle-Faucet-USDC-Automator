@@ -6,25 +6,13 @@
     "schedule": "Every ~2.4 hours (10 times/day) "
   },
   "summary": {
-    "total_attempts": 543,
+    "total_attempts": 544,
     "total_success": 20,
-    "total_failed": 523,
+    "total_failed": 524,
     "success_rate_pct": 3.68,
-    "last_updated": "2026-04-17T22:06:30.707Z"
+    "last_updated": "2026-04-18T02:06:34.838Z"
   },
   "claims": [
-    {
-      "timestamp": "2026-02-27T01:51:52.784Z",
-      "status": "failed",
-      "http_status": 403,
-      "transaction_id": null,
-      "message": "Forbidden",
-      "error_code": 3,
-      "raw_response": {
-        "code": 3,
-        "message": "Forbidden"
-      }
-    },
     {
       "timestamp": "2026-02-27T04:23:08.754Z",
       "status": "failed",
@@ -6003,6 +5991,18 @@
     },
     {
       "timestamp": "2026-04-17T22:06:30.317Z",
+      "status": "failed",
+      "http_status": 403,
+      "transaction_id": null,
+      "message": "Forbidden",
+      "error_code": 3,
+      "raw_response": {
+        "code": 3,
+        "message": "Forbidden"
+      }
+    },
+    {
+      "timestamp": "2026-04-18T02:06:34.525Z",
       "status": "failed",
       "http_status": 403,
       "transaction_id": null,

@@ -6,25 +6,13 @@
     "schedule": "Every ~2.4 hours (10 times/day) "
   },
   "summary": {
-    "total_attempts": 617,
+    "total_attempts": 618,
     "total_success": 20,
-    "total_failed": 597,
+    "total_failed": 598,
     "success_rate_pct": 3.24,
-    "last_updated": "2026-04-25T10:24:10.281Z"
+    "last_updated": "2026-04-25T12:52:48.470Z"
   },
   "claims": [
-    {
-      "timestamp": "2026-03-06T10:03:54.437Z",
-      "status": "failed",
-      "http_status": 429,
-      "transaction_id": null,
-      "message": "API rate limit error",
-      "error_code": 5,
-      "raw_response": {
-        "code": 5,
-        "message": "API rate limit error"
-      }
-    },
     {
       "timestamp": "2026-03-06T12:41:48.505Z",
       "status": "failed",
@@ -6003,6 +5991,18 @@
     },
     {
       "timestamp": "2026-04-25T10:24:09.865Z",
+      "status": "failed",
+      "http_status": 429,
+      "transaction_id": null,
+      "message": "API rate limit error",
+      "error_code": 5,
+      "raw_response": {
+        "code": 5,
+        "message": "API rate limit error"
+      }
+    },
+    {
+      "timestamp": "2026-04-25T12:52:48.044Z",
       "status": "failed",
       "http_status": 429,
       "transaction_id": null,
